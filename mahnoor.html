@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahnoor Jutt 💖</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff0844, #ffb199);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    color: #ff0844;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff0844; }
+    to { text-shadow: 0 0 30px #ff5e62; }
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.yes {
+    background: #ff0844;
+    color: white;
+}
+
+.no {
+    background: #ccc;
+    position: absolute;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ff0844;
+    min-height: 60px;
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+    <h1>Mahnoor Jutt 💖</h1>
+    <p>I have something very special to ask you...</p>
+    <h2>Will you be my Valentine?</h2>
+
+    <button class="yes" onclick="celebrate()">Yes ❤️</button>
+    <button class="no" id="noBtn">No 😢</button>
+
+    <div id="message"></div>
+</div>
+
+<script>
+// Floating background hearts
+for (let i = 0; i < 30; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+    document.body.appendChild(heart);
+}
+
+// No button runs away
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", function() {
+    noBtn.style.top = Math.random() * 300 + "px";
+    noBtn.style.left = Math.random() * 300 + "px";
+});
+
+// Typing animation
+function typeWriter(text, i = 0) {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1), 50);
+    }
+}
+
+// Confetti celebration
+function celebrate() {
+    typeWriter("You just made my world the happiest place ever 💖✨ Let's celebrate forever together! 🎉");
+    startConfetti();
+}
+
+// Simple Confetti
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let pieces = [];
+
+function startConfetti() {
+    for (let i = 0; i < 150; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 6 + 4,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            speed: Math.random() * 3 + 2
+        });
+    }
+    animate();
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.y += p.speed;
+        if (p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(animate);
+}
+</script>
+
+</body>
+</html>
